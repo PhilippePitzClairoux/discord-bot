@@ -4,7 +4,10 @@ import ca.pitz.commands.Command;
 import ca.pitz.commands.CommandHolder;
 import ca.pitz.commands.DiscordCommand;
 import ca.pitz.commands.usable.RandomEvents;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.RestAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -66,12 +69,37 @@ public class MessageDispatcher {
 
     void dispatch(MessageReceivedEvent message) throws IOException, InterruptedException, InvocationTargetException, IllegalAccessException {
         String msg = message.getMessage().getContentRaw();
-        if (msg.startsWith("!") && !message.getAuthor().isBot()) {
+
+        if (msg.contains("!help")) {
+            String buffer = "";
+            for (Map.Entry<String, Command> entry : commands.entrySet()) {
+                Command command = entry.getValue();
+                if (!command.getMetadata().name().isEmpty()) {
+                    buffer = buffer.concat(entry.getValue().getMetadata().help())
+                            .concat("\n");
+                }
+            }
+
+            final String helpMessage = buffer;
+            message.getAuthor()
+                    .openPrivateChannel()
+                    .flatMap(privateChannel -> privateChannel.sendMessage(helpMessage))
+                    .queue();
+        }
+
+        if (msg.startsWith("!") && !message.getAuthor().isBot() && !message.getChannelType().equals(ChannelType.PRIVATE)) {
             String commandName = extractCommand(msg);
             List<String> args = extractArgs(msg);
 
             //find command
             Command command = this.commands.get(commandName);
+
+            //if command dosent existe, go next
+            if (Objects.isNull(command)) {
+                message.getChannel().sendMessage("Invalid command. Use `!help` for more information").queue();
+                return;
+            }
+
             //call command
             if (args.size() < Integer.parseInt(command.getMetadata().numberOfArgs())) {
                 message.getChannel().sendMessage("This command is invalid boy. Check this out :").queue();
