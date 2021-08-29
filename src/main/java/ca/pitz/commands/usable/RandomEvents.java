@@ -19,7 +19,7 @@ public class RandomEvents implements DiscordCommandInterface {
 
     @DiscordCommand(numberOfArgs = "0", help = "NOPE!")
     public String getRandomMessage(MessageReceivedEvent message, List<String> args) {
-        int index = (random.nextInt()* (events.length));
+        int index = random.nextInt(events.length);
         return events[index];
     }
 

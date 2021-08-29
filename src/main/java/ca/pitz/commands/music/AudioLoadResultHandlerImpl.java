@@ -10,11 +10,13 @@ public class AudioLoadResultHandlerImpl implements AudioLoadResultHandler {
 
   private final TextChannel textChannel;
   private final MusicManager musicManager;
+  private final boolean search;
 
   public AudioLoadResultHandlerImpl(TextChannel textChannel,
-      MusicManager musicManager) {
+      MusicManager musicManager, boolean search) {
     this.textChannel = textChannel;
     this.musicManager = musicManager;
+    this.search = search;
   }
 
   @Override
@@ -25,6 +27,12 @@ public class AudioLoadResultHandlerImpl implements AudioLoadResultHandler {
 
   @Override
   public void playlistLoaded(AudioPlaylist audioPlaylist) {
+
+    if (search) {
+      this.trackLoaded(audioPlaylist.getTracks().get(0));
+      return;
+    }
+
     textChannel.sendMessage("Added playlist to queue.").queue();
     audioPlaylist.getTracks().forEach(musicManager::queueTrack);
   }

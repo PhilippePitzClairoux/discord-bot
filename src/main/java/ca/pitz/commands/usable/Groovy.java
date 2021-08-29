@@ -58,8 +58,23 @@ public class Groovy implements DiscordCommandInterface {
       audioManager.openAudioConnection(confirmedChannel);
     }
 
-    String trackUrl = args.get(0);
-    audioPlayerManager.loadItem(trackUrl, new AudioLoadResultHandlerImpl(textChannel, this.musicManager));
+    String trackUrl = buildSearchUrl(args);
+    audioPlayerManager.loadItem(trackUrl,
+        new AudioLoadResultHandlerImpl(textChannel,
+            this.musicManager,
+            trackUrl.contains("ytsearch:")));
+  }
+
+  private String buildSearchUrl(List<String> args) {
+    String url = args.get(0);
+    if (args.size() > 1 || !args.get(0).contains("youtub")) {
+      url = "ytsearch: ";
+      for (String arg : args) {
+        url = url.concat(arg).concat(" ");
+      }
+    }
+
+    return url;
   }
 
   @DiscordCommand(name = "!skip", numberOfArgs = "0", help = "!skip (skips current song)")
