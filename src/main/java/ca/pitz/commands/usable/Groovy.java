@@ -51,7 +51,7 @@ public class Groovy implements DiscordCommandInterface {
       VoiceChannel confirmedChannel = channel.get();
       AudioPlayer audioPlayer = audioPlayerManager.createPlayer();
       AudioPlayerSendHandler audioPlayerSendHandler = new AudioPlayerSendHandler(audioPlayer);
-      this.musicManager = new MusicManager(audioPlayer);
+      this.musicManager = new MusicManager(audioPlayer, message.getTextChannel());
 
       AudioManager audioManager = confirmedChannel.getGuild().getAudioManager();
       audioManager.setSendingHandler(audioPlayerSendHandler);
@@ -60,7 +60,6 @@ public class Groovy implements DiscordCommandInterface {
 
     String trackUrl = args.get(0);
     audioPlayerManager.loadItem(trackUrl, new AudioLoadResultHandlerImpl(textChannel, this.musicManager));
-
   }
 
   @DiscordCommand(name = "!skip", numberOfArgs = "0", help = "!skip (skips current song)")

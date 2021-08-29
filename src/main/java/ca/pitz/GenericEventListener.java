@@ -27,6 +27,7 @@ public class GenericEventListener extends ListenerAdapter {
             messageDispatcher.dispatch(event);
         } catch (IOException | InterruptedException | InvocationTargetException | IllegalAccessException e) {
             log.error("Exception occured during dispatch...");
+            log.error("Message {}", event.getMessage().getContentRaw());
             log.error("Exception details : ", e);
         }
     }
