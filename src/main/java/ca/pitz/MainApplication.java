@@ -37,7 +37,7 @@ public class MainApplication implements CommandLineRunner {
 
         if (!cmd.hasOption("t")) {
             helpFormatter.printHelp("java -jar disc-bot.jar -t xyz", options);
-            return;
+            System.exit(-1);
         }
 
         JDABuilder.createDefault(cmd.getOptionValue("t"))
