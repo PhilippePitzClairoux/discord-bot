@@ -1,13 +1,14 @@
 package ca.pitz.commands.usable;
 
-import ca.pitz.commands.CommandHolder;
 import ca.pitz.commands.DiscordCommand;
+import ca.pitz.commands.DiscordCommandInterface;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
+import org.springframework.stereotype.Component;
 
-@CommandHolder
-public class FuckeryCommands {
+@Component
+public class FuckeryCommands implements DiscordCommandInterface {
 
     @DiscordCommand(name = "!tyl", help = "!tyl [name]")
     public void tylCommand(MessageReceivedEvent message, List<String> args) {
@@ -32,5 +33,10 @@ public class FuckeryCommands {
         message.getChannel()
                 .sendMessage("https://media.tenor.com/images/a1a9560e87fca898eac66f41c9551f95/tenor.gif")
                 .queue();
+    }
+
+    @Override
+    public boolean commandIsAvailable() {
+        return true;
     }
 }

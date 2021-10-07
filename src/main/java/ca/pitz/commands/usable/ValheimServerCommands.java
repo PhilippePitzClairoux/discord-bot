@@ -1,17 +1,17 @@
 package ca.pitz.commands.usable;
 
-import ca.pitz.commands.CommandHolder;
 import ca.pitz.commands.DiscordCommand;
+import ca.pitz.commands.DiscordCommandInterface;
 import ca.pitz.utils.ServerUtils;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
-
-@CommandHolder
-public class ValheimServerCommands {
+@Component
+public class ValheimServerCommands implements DiscordCommandInterface {
 
     private final ServerUtils serverUtils;
 
@@ -43,4 +43,9 @@ public class ValheimServerCommands {
         message.getChannel().sendMessage("The server has been updated and was restarted. Enjoy!").queue();
     }
 
+    @Override
+    public boolean commandIsAvailable() {
+//        return serverUtils.serverExists();
+        return false;
+    }
 }
