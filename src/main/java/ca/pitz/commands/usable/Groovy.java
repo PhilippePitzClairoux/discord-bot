@@ -97,7 +97,8 @@ public class Groovy implements DiscordCommandInterface {
   public void die(MessageReceivedEvent message, List<String> args) {
     message.getGuild().getAudioManager().closeAudioConnection();
     message.getChannel().sendMessage("Cya later aligator!").queue();
-    this.musicManager = null;
+    guildMusic.remove(message.getGuild().getName());
+
   }
 
   @Override
