@@ -9,6 +9,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ public class Groovy implements DiscordCommandInterface {
 
   private MusicManager musicManager;
   private final AudioPlayerManager audioPlayerManager = new DefaultAudioPlayerManager();
+  private final HashMap<String, MusicManager> guildMusic = new HashMap<>();
 
   public Groovy() {
     AudioSourceManagers.registerLocalSource(audioPlayerManager);
@@ -38,6 +41,7 @@ public class Groovy implements DiscordCommandInterface {
     Optional<VoiceChannel> channel = message.getJDA().getVoiceChannels().stream()
         .filter(voiceChannel -> voiceChannel.getMembers().stream().filter(member -> member.getUser().equals(author)).count() == 1)
         .findFirst();
+    MusicManager manager = guildMusic.get(message.getGuild().getName());
 
     if (channel.isEmpty()) {
       message.getChannel()
@@ -46,22 +50,23 @@ public class Groovy implements DiscordCommandInterface {
       return;
     }
 
-    if (this.musicManager == null) {
+    if (manager == null) {
       //connect to voice chat
       VoiceChannel confirmedChannel = channel.get();
       AudioPlayer audioPlayer = audioPlayerManager.createPlayer();
       AudioPlayerSendHandler audioPlayerSendHandler = new AudioPlayerSendHandler(audioPlayer);
-      this.musicManager = new MusicManager(audioPlayer, message.getTextChannel());
+      manager = new MusicManager(audioPlayer, message.getTextChannel());
 
       AudioManager audioManager = confirmedChannel.getGuild().getAudioManager();
       audioManager.setSendingHandler(audioPlayerSendHandler);
       audioManager.openAudioConnection(confirmedChannel);
+      guildMusic.put(message.getGuild().getName() , manager);
     }
 
     String trackUrl = buildSearchUrl(args);
     audioPlayerManager.loadItem(trackUrl,
         new AudioLoadResultHandlerImpl(textChannel,
-            this.musicManager,
+            manager,
             trackUrl.contains("ytsearch:")));
   }
 
@@ -79,6 +84,8 @@ public class Groovy implements DiscordCommandInterface {
 
   @DiscordCommand(name = "!skip", numberOfArgs = "0", help = "!skip (skips current song)")
   public void skipVideo(MessageReceivedEvent message, List<String> args) {
+    MusicManager musicManager = guildMusic.get(message.getGuild().getName());
+
     if (musicManager.isPlaying()) {
       musicManager.nextTrack();
     } else {

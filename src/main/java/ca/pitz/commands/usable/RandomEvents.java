@@ -13,7 +13,9 @@ public class RandomEvents implements DiscordCommandInterface {
 
     private final String[] events = {"QUI PARLE?", "Yeaaaaah Yeeeaaaaaah Yeah.", "Tu cherche le beef mec?",
             "BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR", "Aye big t'es tu pacte?",
-    "Wow minute ti chum, t'exagere un peu lo lo."};
+    "Wow minute ti chum, t'exagere un peu lo lo.", "T'es tu serieux gros big?", "NICE POWER TRIP BUDDY",
+            "Touche moe le mijo", "Va t'coucher ti gars", "SA FAIT DU SENS QU'EST-CE TU DIT", "Julien pacte HAHAHAHA",
+    "Yo faut que jte parle live dans un chat prive."};
     private final java.util.Random random = new Random();
 
 
