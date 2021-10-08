@@ -22,4 +22,7 @@ public class GuildConfiguration {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Column(name = "extra")
+    private String extra;
+
 }

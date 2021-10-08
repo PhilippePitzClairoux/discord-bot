@@ -10,10 +10,13 @@ import javax.persistence.*;
 public class WhitelistType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
 
     @Column(name = "type")
     private String type;
+
+    @Column(name = "description")
+    private String description;
 }
 

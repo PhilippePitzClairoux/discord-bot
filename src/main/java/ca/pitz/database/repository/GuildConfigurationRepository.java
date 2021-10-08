@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface GuildConfigurationRepository extends JpaRepository<GuildConfiguration, Integer> {
     List<GuildConfiguration> findByGuild(int guild);
+
+    List<GuildConfiguration> findByConfig(Integer config);
 }

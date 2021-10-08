@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "whitelists")
 public class Whitelist {
 

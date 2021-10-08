@@ -31,14 +31,14 @@ public class MessageDispatcher {
 
 
     private String extractCommand(String message) {
-        if (message.split(" ").length > 1) {
+        if (message.startsWith("!") && message.contains(" ")) {
             return message.substring(0, message.indexOf(" "));
         }
         return message;
     }
 
     private List<String> extractArgs(String message) {
-        return Arrays.stream(message.split(" "))
+        return Arrays.stream(message.split(" (?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)"))
                 .filter(s -> !s.startsWith("!"))
                 .collect(Collectors.toList());
     }

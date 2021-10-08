@@ -1,42 +1,6 @@
-CREATE TABLE guilds
-(
-    id   AUTO_INCREMENT INTEGER PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE whitelist_type
-(
-    id   INTEGER      NOT NULL PRIMARY KEY,
-    type VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE configs
-(
-    id   INTEGER      NOT NULL PRIMARY KEY,
-    config VARCHAR(255) NOT NULL
-);
-
-
-CREATE TABLE guild_configuration (
-    id AUTO_INCREMENT INTEGER NOT NULL PRIMARY KEY,
-    guild INTEGER NOT NULL,
-    config INTEGER NOT NULL,
-    enabled BOOLEAN NOT NULL,
-    FOREIGN KEY(guild) REFERENCES guilds(id),
-    FOREIGN KEY(config) REFERENCES configs(id)
-);
-
-CREATE TABLE whitelists
-(
-    id       AUTO_INCREMENT INTEGER NOT NULL PRIMARY KEY,
-    username VARCHAR(255)           NOT NULL,
-    guild    INTEGER                NOT NULL,
-    type     INTEGER                NOT NULL,
-    FOREIGN KEY (guild) REFERENCES guilds (id),
-    FOREIGN KEY (type) REFERENCES whitelist_type (id)
-);
-
-INSERT INTO whitelist_type(id, type)
-VALUES (1, 'user');
-
-INSERT INTO configs(id, config) VALUES (1, 'whitelisting');
+INSERT INTO WHITELIST_TYPE(ID, TYPE, DESCRIPTION) VALUES (1, 'user', 'The user can call the bot if whitelisting is enabled.');
+INSERT INTO CONFIGS(ID, CONFIG) VALUES (1, 'whitelisting');
+INSERT INTO CONFIGS(ID, CONFIG) VALUES (2, 'access-denied');
+INSERT INTO GUILDS(ID, NAME)  VALUES (1, 'I don''t take betrayal lightly');
+INSERT INTO WHITELISTS(ID, GUILD, TYPE, USERNAME) VALUES (1, 1, 1, '297195342540046337');
+INSERT INTO GUILD_CONFIGURATION(ID, CONFIG, ENABLED, GUILD, EXTRA) VALUES (1, 2, TRUE, 1, 'Fuck out of here boy, you don''t have the right to do this.');

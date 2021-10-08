@@ -4,10 +4,21 @@ spring:
     driver-class-name: org.h2.Driver
     username: admin
     password: password
+    initialization-mode: always
   jpa:
     properties:
       hibernate:
-        dialect=org:
-          hibernate:
-            dialect:
-              H2Dialect
+        ddl-auto: create
+        dialect:
+          org:
+            hibernate:
+              dialect:
+                H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+
+logging:
+  level:
+    org:
+      springframework: info

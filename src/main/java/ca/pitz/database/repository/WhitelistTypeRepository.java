@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface WhitelistTypeRepository extends JpaRepository<WhitelistTypeRepository, Integer> {
+public interface WhitelistTypeRepository extends JpaRepository<WhitelistType, Integer> {
 
     WhitelistType findByType(String type);
 
