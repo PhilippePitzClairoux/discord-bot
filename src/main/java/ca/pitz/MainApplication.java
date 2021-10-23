@@ -47,7 +47,5 @@ public class MainApplication implements CommandLineRunner {
         .createDefault(cmd.getOptionValue("t"), GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
         .addEventListeners(eventListener)
         .build().awaitReady();
-
-    System.out.println(jda.getGuilds().get(1).getMembers());
   }
 }

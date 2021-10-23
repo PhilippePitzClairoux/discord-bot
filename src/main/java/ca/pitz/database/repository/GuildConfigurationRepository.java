@@ -9,4 +9,7 @@ public interface GuildConfigurationRepository extends JpaRepository<GuildConfigu
     List<GuildConfiguration> findByGuild(int guild);
 
     List<GuildConfiguration> findByConfig(Integer config);
+
+    boolean existsByGuildAndEnabledAndConfig(int guild, boolean enabled, int config);
+
 }

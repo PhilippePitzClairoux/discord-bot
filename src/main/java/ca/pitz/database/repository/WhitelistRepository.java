@@ -9,8 +9,8 @@ import java.util.List;
 @Component
 public interface WhitelistRepository extends JpaRepository<Whitelist, Integer> {
 
-    Whitelist findByGuild(String guild);
-
     List<Whitelist> findByGuild(int guild);
+
+    void removeByGroupAndGuild(String group, int guild);
 
 }

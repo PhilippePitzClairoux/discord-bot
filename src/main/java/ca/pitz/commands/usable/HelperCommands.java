@@ -7,20 +7,16 @@ import ca.pitz.commands.DiscordCommand;
 import ca.pitz.commands.DiscordCommandInterface;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Component
-public class ManagementCommands implements DiscordCommandInterface {
+public class HelperCommands implements DiscordCommandInterface {
 
     private final CommandsManager commandsManager;
 
-    @Autowired
-    public ManagementCommands(CommandsManager commandsManager) {
+    public HelperCommands(CommandsManager commandsManager) {
         this.commandsManager = commandsManager;
     }
 
@@ -29,7 +25,7 @@ public class ManagementCommands implements DiscordCommandInterface {
         return true;
     }
 
-    @DiscordCommand(name = "!help", numberOfArgs = "0", help = "!help")
+    @DiscordCommand(name = "!help", numberOfArgs = "0", help = "!help (lists all commands available to you)")
     public void help(MessageReceivedEvent message, List<String> args)  {
         String buffer = "";
         for (Map.Entry<String, Command> entry : commandsManager.getAllArgs()) {

@@ -16,15 +16,13 @@ import javax.persistence.*;
 public class Whitelist {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "group")
+    @Column(name = "groupName")
     private String group;
 
     @Column(name = "guild")
     private int guild;
 
-    @Column(name = "type")
-    private int type;
 }
