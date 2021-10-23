@@ -19,8 +19,8 @@ public class Whitelist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "group")
+    private String group;
 
     @Column(name = "guild")
     private int guild;

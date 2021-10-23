@@ -4,15 +4,15 @@ import java.util.List;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class MessageUtils {
 
 
-  public void sendMessage(MessageChannel messageChannel, String message) {
+  public static void sendMessage(MessageChannel messageChannel, String message) {
     messageChannel.sendMessage(message).queue();
   }
 
-  public void sendFormattedMessage(MessageChannel messageChannel, List<String> content) {
+  public static void sendFormattedMessage(MessageChannel messageChannel, List<String> content) {
     String currentRowOutput = "";
     int i = 0;
 

@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public interface WhitelistRepository extends JpaRepository<Whitelist, Integer> {
 
-    Whitelist findByUsername(String username);
+    Whitelist findByGuild(String guild);
 
     List<Whitelist> findByGuild(int guild);
 

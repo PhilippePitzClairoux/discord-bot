@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MessageDispatcher {
 
     private final RandomEvents randomEvents;
-    private final List<String> whitelistedChannels = List.of("legends-news", "bot-feature-request", "music");
+    private final List<String> whitelistedChannels = List.of("legends-news", "bot-feature-request", "music", "\uD83D\uDC65lost-ones");
     private final CommandsManager commands;
 
     @Autowired
@@ -27,7 +27,6 @@ public class MessageDispatcher {
         this.randomEvents = randomEvents;
         this.commands = commands;
     }
-
 
 
     private String extractCommand(String message) {
@@ -40,6 +39,9 @@ public class MessageDispatcher {
     private List<String> extractArgs(String message) {
         return Arrays.stream(message.split(" (?=(?:[^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)"))
                 .filter(s -> !s.startsWith("!"))
+                .collect(Collectors.toList())
+                .stream()
+                .filter(s -> !s.equals(""))
                 .collect(Collectors.toList());
     }
 
@@ -47,8 +49,9 @@ public class MessageDispatcher {
         String msg = message.getMessage().getContentRaw();
         String channelName = message.getChannel().getName();
 
-        System.out.println("Current channel : " + channelName);
-        System.out.println("Current guild : " + message.getGuild().getName());
+        log.info("{} - {} - {}", message.getGuild().getName(),
+                message.getChannel().getName(),
+                message.getAuthor().getName());
         if (!whitelistedChannels.contains(channelName)) {
             return;
         }

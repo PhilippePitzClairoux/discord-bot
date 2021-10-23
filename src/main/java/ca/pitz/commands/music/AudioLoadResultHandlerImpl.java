@@ -1,5 +1,6 @@
 package ca.pitz.commands.music;
 
+import ca.pitz.utils.MessageUtils;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
@@ -9,20 +10,20 @@ import net.dv8tion.jda.api.entities.TextChannel;
 public class AudioLoadResultHandlerImpl implements AudioLoadResultHandler {
 
   private final TextChannel textChannel;
-  private final MusicManager musicManager;
+  private final GuildMusicManager guildMusicManager;
   private final boolean search;
 
   public AudioLoadResultHandlerImpl(TextChannel textChannel,
-      MusicManager musicManager, boolean search) {
+                                    GuildMusicManager guildMusicManager, boolean search) {
     this.textChannel = textChannel;
-    this.musicManager = musicManager;
+    this.guildMusicManager = guildMusicManager;
     this.search = search;
   }
 
   @Override
   public void trackLoaded(AudioTrack audioTrack) {
-    textChannel.sendMessage("Song added to the queue.").queue();
-    musicManager.queueTrack(audioTrack);
+    MessageUtils.sendMessage(textChannel,"Song added to the queue.");
+    guildMusicManager.queueTrack(audioTrack);
   }
 
   @Override
@@ -33,8 +34,8 @@ public class AudioLoadResultHandlerImpl implements AudioLoadResultHandler {
       return;
     }
 
-    textChannel.sendMessage("Added playlist to queue.").queue();
-    audioPlaylist.getTracks().forEach(musicManager::queueTrack);
+    MessageUtils.sendMessage(textChannel,"Added playlist to queue.");
+    audioPlaylist.getTracks().forEach(guildMusicManager::queueTrack);
   }
 
   @Override
@@ -44,6 +45,6 @@ public class AudioLoadResultHandlerImpl implements AudioLoadResultHandler {
 
   @Override
   public void loadFailed(FriendlyException e) {
-    textChannel.sendMessage("Could not load file : " + e.getMessage()).queue();
+    textChannel.sendMessage("Could not load song : " + e.getCause()).queue();
   }
 }
